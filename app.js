@@ -1,8 +1,11 @@
-var   express           = require('express')
-    , http              = require('http')
-    , path              = require('path')
-    , fs                = require('fs')
-    , app               = express()
+var   express       = require('express')
+    , http          = require('http')
+    , path          = require('path')
+    , fs            = require('fs')
+    , app           = express()
+    , childProcess  = require('child_process')
+    , phantomjs     = require('phantomjs')
+    , binPath       = phantomjs.path
 	;
 
 app.configure(function () {
@@ -23,8 +26,19 @@ var server = http.createServer(app).listen(app.get('port'), function () {
 	console.log('server is running on ' + app.get('port'))
 });
 
-app.get('/',  function (req, res) {
-	res.render('index', {title: 'home page'});
+
+
+app.get('/:page_url',  function (req, res) {
+
+	var src = req.params.page_url || 'www.kupisebedom.com';
+
+	var childArgs = [path.join(__dirname, 'phantomscreenshoter.js'), src];
+
+	childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
+  		if (!err) {
+  			res.render('image', {src: src + '.png'});
+  		}
+	})
 });
 
 

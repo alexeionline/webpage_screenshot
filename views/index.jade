@@ -3,14 +3,24 @@ html
 	head
 		title= title
 
+		link(href='styles/main.css',rel="stylesheet",type="text/css")
+
 	body
 		h1 screenshoter
 
 		div.inputs-block
 			p
-				input(name='page_url',placeholder='page url')
+				input#page_url(placeholder='page url')
 			p
-				input(name='img_width',placeholder='width')
-				input(name='img_height',placeholder='height')
+				input#img_width(placeholder='width', value='150')
+				input#img_height(placeholder='height', value='100')
 			p
-				button(name='submit') show image	
+				input#vwp_width(placeholder='viewport width', value='1024')
+				input#vwp_height(placeholder='viewport height', value='768')
+			p
+				button#submit(name='submit') show image
+
+		div#image-block
+			img#result_img.hidden
+
+		script(src="scripts/core.js")

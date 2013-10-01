@@ -37,10 +37,9 @@ app.get('/api/v1/screenshot',  function (req, res) {
 
     var childArgs = [
           path.join(__dirname, 'phantomscreenshoter.js')
-        // Hi, Eugene! Could you please add here default values for these params
         , url
-        , req.query.viewport
-        , req.query.size
+        , req.query.viewport || '1024x768'
+        , req.query.size || '100x150'
     ];
 
     childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {

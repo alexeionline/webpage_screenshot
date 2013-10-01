@@ -38,8 +38,8 @@ app.get('/api/v1/screenshot',  function (req, res) {
     var childArgs = [
           path.join(__dirname, 'phantomscreenshoter.js')
         , url
-        , req.query.viewport || '1024x768'
-        , req.query.size || '100x150'
+        , req.query.viewport
+        , req.query.size
     ];
 
     childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {

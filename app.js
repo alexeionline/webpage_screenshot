@@ -27,17 +27,25 @@ server = http.createServer(app).listen(app.get('port'), function () {
     console.log('server is running on ' + app.get('port'))
 });
 
+app.get('/',  function (req, res) {
+    res.render('index', {title: 'home page'});
+});
+
 app.get('/api/v1/screenshot',  function (req, res) {
+
+    var url = req.query.url || 'www.kupisebedom.com';
+
     var childArgs = [
           path.join(__dirname, 'phantomscreenshoter.js')
-        , req.query.url || 'www.kupisebedom.com'
+        // Hi, Eugene! Could you please add here default values for these params
+        , url
         , req.query.viewport
         , req.query.size
     ];
 
     childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
         if (!err) {
-            res.render('image', {src: src + '.png'});
+            res.sendfile('public/images/' + url + '.png');
         }
     })
 });

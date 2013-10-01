@@ -27,12 +27,13 @@ server = http.createServer(app).listen(app.get('port'), function () {
     console.log('server is running on ' + app.get('port'))
 });
 
-app.get(/^\/([^\/]+)(?:\/(\d+)x(\d+))?$/,  function (req, res) {
-    var   src           = req.params[0] || 'www.kupisebedom.com'
-        , width         = req.params[1]
-        , height        = req.params[2]
-        , childArgs     = [path.join(__dirname, 'phantomscreenshoter.js'), src, width, height]
-        ;
+app.get('/api/v1/screenshot',  function (req, res) {
+    var childArgs = [
+          path.join(__dirname, 'phantomscreenshoter.js')
+        , req.query.url || 'www.kupisebedom.com'
+        , req.query.viewport
+        , req.query.size
+    ];
 
     childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
         if (!err) {

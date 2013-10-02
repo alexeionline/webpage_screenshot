@@ -37,18 +37,18 @@ app.get('/api/v1/screenshot',  function (req, res) {
     var   url       = req.query.url || 'www.kupisebedom.com'
         , viewport  = req.query.viewport || '1024x768'
         , size      = req.query.size || '150x100'
-        , viewportSplitted  = viewport.split('x')
+        // , viewportSplitted  = viewport.split('x')
         , sizeSplitted      = size.split('x')
-        , ratio = sizeSplitted[0] / sizeSplitted[1]
-        , width = ratio * viewportSplitted[0]
-        , height = ratio * viewportSplitted[1]
-        , childArgs = [ path.join(__dirname, 'phantomscreenshoter.js'), url , width + 'x' + height ]
+        // , ratio = sizeSplitted[0] / sizeSplitted[1]
+        // , width = ratio * viewportSplitted[0]
+        // , height = ratio * viewportSplitted[1]
+        , childArgs = [ path.join(__dirname, 'phantomscreenshoter.js'), url , viewport ]
         ;
 
     childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
         if (err) throw err;
 
-        im.convert(['public/images/' + url + '.png', '-resize', size, 'public/images/' + url + '_resized.png'], function(err, stdout) {
+        im.convert(['public/images/' + url + '.png', '-resize', sizeSplitted[0] + 'x', '-extent', size, 'public/images/' + url + '_resized.png'], function(err, stdout) {
             if (err) throw err;
             res.sendfile('public/images/' + url + '_resized.png');
         });

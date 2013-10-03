@@ -4,23 +4,54 @@ html
 		title= title
 
 		link(href='styles/main.css',rel="stylesheet",type="text/css")
+		link(href='styles/bootstrap.min.css',rel="stylesheet",type="text/css")
+		link(href='styles/bootstrap-responsive.min.css',rel="stylesheet",type="text/css")
 
 	body
-		h1 screenshoter
 
-		div.inputs-block
-			p
-				input#page_url(placeholder='page url')
-			p
-				input#img_width(placeholder='width', value='150')
-				input#img_height(placeholder='height', value='100')
-			p
-				input#vwp_width(placeholder='viewport width', value='1024')
-				input#vwp_height(placeholder='viewport height', value='768')
-			p
-				button#submit(name='submit') show image
+		div.container
+			div.row
+				div.span12
+					h1 screenshoter
+		
+			div.row
+				form
+					div.span6
+						fieldset
+							legend Setup
+							div.row
+								p.span6
+									label Web page url
+									input#page_url.span6(type="text", placeholder="Webpage URL")
 
-		div#image-block
-			img#result_img.hidden
+							div.row 
+								p.span3
+									label Image width
+									input#img_width.span3(type="text", placeholder="Image width", value="150")
+
+								p.span3
+									label Image height
+									input#img_height.span3(type="text", placeholder="Image height", value="100")
+
+							div.row 
+								p.span3
+									label Viewport width
+									input#vwp_width.span3(type="text", placeholder="Viewport width", value="1024")
+
+								p.span3
+									label Viewport height
+									input#vwp_height.span3(type="text", placeholder="Viewport height", value="768")
+
+						div.row
+							p.span6.text-right
+								button#submit.btn(type="button") Take screenshot
+
+					div.span6
+						legend Image preview
+						div.row
+							p#image-block.span6.text-center
+								span#loodingText.hidden looding...
+								span#errorText.hidden error...
+								img#result_img.hidden
 
 		script(src="scripts/core.js")

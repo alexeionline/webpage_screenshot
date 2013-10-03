@@ -9,12 +9,20 @@
 
 		imgQueryString = '/api/v1/screenshot?url=' + url + '&size=' + imgSize + '&viewport=' + vwpSize;
 
-
+		loodingText.className = '';
+		errorText.className = 'hidden';
 		result_img.className = 'hidden';
+
 		result_img.src = imgQueryString;
 
 		result_img.addEventListener('load', function () {
 			result_img.className = '';
+			loodingText.className = 'hidden';
+		})
+
+		result_img.addEventListener('error', function () {
+			loodingText.className = 'hidden';
+			errorText.className = '';
 		})
 	})
 

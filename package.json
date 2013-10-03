@@ -9,7 +9,8 @@
     "express": "3.4.0",
     "jade": "*",
     "phantomjs": "*",
-    "imagemagick": "~0.1.3"
+    "imagemagick": "~0.1.3",
+    "cloudinary": "~1.0.5"
   },
   "engines": {
     "node": "0.10.*",

@@ -6,9 +6,16 @@ var   express       = require('express')
     , app           = express()
     , childProcess  = require('child_process')
     , phantomjs     = require('phantomjs')
+    , cloudinary    = require('cloudinary')
     , binPath       = phantomjs.path
     , server
     ;
+
+cloudinary.config({ 
+    cloud_name: 'dremdvynb',
+    api_key:    '971775612952388',
+    api_secret: 'w8NXM6S0NhR9ZGCmz-IHwsAhN1Y'
+});
 
 app.configure(function () {
 
@@ -50,7 +57,10 @@ app.get('/api/v1/screenshot',  function (req, res) {
 
         im.convert(['public/images/' + url + '.png', '-resize', sizeSplitted[0] + 'x', '-extent', size, 'public/images/' + url + '_resized.png'], function(err, stdout) {
             if (err) throw err;
-            res.sendfile('public/images/' + url + '_resized.png');
+            cloudinary.uploader.upload('public/images/' + url + '_resized.png', function(result) {
+                // result.url - url to image like http://res.cloudinary.com/dremdvynb/image/upload/v1380824310/wjk3e6kbvpmu1k3o6rdw.png
+                res.sendfile('public/images/' + url + '_resized.png');
+            });
         });
     });
 });

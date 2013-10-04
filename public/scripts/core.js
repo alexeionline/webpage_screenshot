@@ -12,18 +12,38 @@
 		loodingText.className = '';
 		errorText.className = 'hidden';
 		result_img.className = 'hidden';
+		buttonsBlock.className = 'hidden';
 
 		result_img.src = imgQueryString;
 
 		result_img.addEventListener('load', function () {
 			result_img.className = '';
+			buttonsBlock.className = '';
 			loodingText.className = 'hidden';
 		})
 
 		result_img.addEventListener('error', function () {
 			loodingText.className = 'hidden';
+			buttonsBlock.className = 'hidden';
 			errorText.className = '';
+
 		})
 	})
+
+	uploadToServer.addEventListener('click', function () {
+		
+		var queryString = result_img.src.replace('/api/v1/screenshot', '/api/v1/upload');
+
+		var xhr = new XMLHttpRequest();
+		
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4) {
+				uploadToServerUrl.value = JSON.parse(xhr.responseText).url;
+			}
+		}
+
+		xhr.open('GET', queryString, true);
+		xhr.send(null);
+	});
 
 }())

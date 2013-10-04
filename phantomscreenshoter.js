@@ -2,6 +2,7 @@ var   page              = require('webpage').create()
     , system            = require('system')
     , url               = system.args[1]
     , viewport          = system.args[2] || '1024x768'
+    , filename          = system.args[3]
     , address           = 'http://' + url
     , viewportSplitted  = viewport.split('x')
     ;
@@ -12,6 +13,6 @@ page.viewportSize = {
 };
 
 page.open(address, function () {
-    page.render('public/images/' + url + '.png');
+    page.render(filename);
     phantom.exit();
 });

@@ -7,6 +7,7 @@ var   express       = require('express')
     , childProcess  = require('child_process')
     , phantomjs     = require('phantomjs')
     , cloudinary    = require('cloudinary')
+    , md5           = require('MD5')
     , binPath       = phantomjs.path
     , server
     ;
@@ -41,28 +42,39 @@ app.get('/',  function (req, res) {
 
 app.get('/api/v1/screenshot',  function (req, res) {
 
-    var   url       = req.query.url || 'www.kupisebedom.com'
-        , viewport  = req.query.viewport || '1024x768'
-        , size      = req.query.size || '150x100'
-        // , viewportSplitted  = viewport.split('x')
-        , sizeSplitted      = size.split('x')
-        // , ratio = sizeSplitted[0] / sizeSplitted[1]
-        // , width = ratio * viewportSplitted[0]
-        // , height = ratio * viewportSplitted[1]
-        , childArgs = [ path.join(__dirname, 'phantomscreenshoter.js'), url , viewport ]
+    var   url           = req.query.url || 'www.kupisebedom.com'
+        , viewport      = req.query.viewport || '1024x768'
+        , size          = req.query.size || '150x100'
+        , sizeSplitted  = size.split('x')
+        , filename      = 'public/images/' + md5(url + size + viewport) + '.png'
+        , childArgs     = [ path.join(__dirname, 'phantomscreenshoter.js'), url, viewport, filename]
         ;
 
     childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
         if (err) throw err;
 
-        im.convert(['public/images/' + url + '.png', '-resize', sizeSplitted[0] + 'x', '-extent', size, 'public/images/' + url + '_resized.png'], function(err, stdout) {
+        im.convert([filename, '-resize', sizeSplitted[0] + 'x', '-extent', size, filename], function(err, stdout) {
             if (err) throw err;
-            cloudinary.uploader.upload('public/images/' + url + '_resized.png', function(result) {
-                // result.url - url to image like http://res.cloudinary.com/dremdvynb/image/upload/v1380824310/wjk3e6kbvpmu1k3o6rdw.png
-                res.sendfile('public/images/' + url + '_resized.png');
-            });
+            res.sendfile(filename);
         });
     });
+});
+
+app.get('/api/v1/upload',  function (req, res) {
+
+     var  url           = req.query.url || 'www.kupisebedom.com'
+        , viewport      = req.query.viewport || '1024x768'
+        , size          = req.query.size || '150x100'
+        , filename      = 'public/images/' + md5(url + size + viewport) + '.png'
+        ;
+
+        cloudinary.uploader.upload(filename, function (result) {
+            // result.url - url to image like http://res.cloudinary.com/dremdvynb/image/upload/v1380824310/wjk3e6kbvpmu1k3o6rdw.png
+            res.send(200, {
+                url: result.url
+            });
+        });
+
 });
 
 

@@ -68,12 +68,23 @@ app.get('/api/v1/upload',  function (req, res) {
         , filename      = 'public/images/' + md5(url + size + viewport) + '.png'
         ;
 
-        cloudinary.uploader.upload(filename, function (result) {
-            // result.url - url to image like http://res.cloudinary.com/dremdvynb/image/upload/v1380824310/wjk3e6kbvpmu1k3o6rdw.png
-            res.send(200, {
-                url: result.url
-            });
+    cloudinary.uploader.upload(filename, function (result) {
+        // result.url - url to image like http://res.cloudinary.com/dremdvynb/image/upload/v1380824310/wjk3e6kbvpmu1k3o6rdw.png
+        res.send(200, {
+            url: result.url
         });
+    });
+});
+
+app.get('/api/v1/download',  function (req, res) {
+
+     var  url           = req.query.url || 'www.kupisebedom.com'
+        , viewport      = req.query.viewport || '1024x768'
+        , size          = req.query.size || '150x100'
+        , filename      = 'public/images/' + md5(url + size + viewport) + '.png'
+        ;
+
+    res.download(filename); // Set disposition and send it.
 
 });
 

@@ -49,17 +49,19 @@ html
 					div.span6
 						legend Image preview
 						div.row
-							div#image-block.span6.text-center
-								img#result_img.hidden
+							div#image-block.span6.text-center								
 								div#loodingText.hidden.row
 									p.span6 looding...
 								div#errorText.hidden.row 
 									p.span6 error...
-								div#buttonsBlock.row.hidden
-									div.input-append.span6
+								div.row
+									div#resultImgBlock.hidden
+										img#result_img
+								div.row
+									div#buttonsBlock.input-append.span6.hidden
 										input#uploadToServerUrl.span4(type="text")
 										button#uploadToServer.btn(type="button") Upload to server
-										button#saveImage.btn(type="button") Save
+										button#downloadFromServer.btn(type="button") Save
 								
 
 		script(src="scripts/core.js")

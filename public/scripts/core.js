@@ -11,13 +11,13 @@
 
 		loodingText.className = '';
 		errorText.className = 'hidden';
-		result_img.className = 'hidden';
+		resultImgBlock.className = 'hidden';
 		buttonsBlock.className = 'hidden';
 
 		result_img.src = imgQueryString;
 
 		result_img.addEventListener('load', function () {
-			result_img.className = '';
+			resultImgBlock.className = '';
 			buttonsBlock.className = '';
 			loodingText.className = 'hidden';
 		})
@@ -26,7 +26,6 @@
 			loodingText.className = 'hidden';
 			buttonsBlock.className = 'hidden';
 			errorText.className = '';
-
 		})
 	})
 
@@ -44,6 +43,11 @@
 
 		xhr.open('GET', queryString, true);
 		xhr.send(null);
+	});
+
+	downloadFromServer.addEventListener('click', function () {
+		var queryString = result_img.src.replace('/api/v1/screenshot', '/api/v1/download');
+		location.href = queryString;
 	});
 
 }())
